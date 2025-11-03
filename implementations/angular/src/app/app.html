@@ -1,0 +1,88 @@
+<div class="todo-app">
+  <div class="todo-header">
+    <h1>Todo List</h1>
+    <span class="framework-badge">Angular</span>
+  </div>
+
+  <div class="todo-input-container">
+    <input
+      type="text"
+      class="todo-input"
+      placeholder="What needs to be done?"
+      [(ngModel)]="inputValue"
+      (keypress)="handleKeyPress($event)"
+      aria-label="New todo input"
+    />
+    <button 
+      class="btn btn-primary" 
+      (click)="addTodo()"
+      aria-label="Add todo"
+    >
+      Add
+    </button>
+  </div>
+
+  <div class="todo-filters">
+    <button
+      [class.active]="filter() === 'all'"
+      class="btn filter-btn"
+      (click)="setFilter('all')"
+      aria-label="Show all todos"
+    >
+      All
+    </button>
+    <button
+      [class.active]="filter() === 'active'"
+      class="btn filter-btn"
+      (click)="setFilter('active')"
+      aria-label="Show active todos"
+    >
+      Active
+    </button>
+    <button
+      [class.active]="filter() === 'completed'"
+      class="btn filter-btn"
+      (click)="setFilter('completed')"
+      aria-label="Show completed todos"
+    >
+      Completed
+    </button>
+  </div>
+
+  <div class="todo-stats">
+    {{ remainingCount() }} {{ remainingCount() === 1 ? 'item' : 'items' }} remaining
+  </div>
+
+  <div *ngIf="filteredTodos().length === 0" class="empty-state">
+    <div class="empty-state-icon">📝</div>
+    <div class="empty-state-text">No todos to display</div>
+  </div>
+
+  <ul *ngIf="filteredTodos().length > 0" class="todo-list">
+    <li 
+      *ngFor="let todo of filteredTodos()" 
+      [class.completed]="todo.completed"
+      class="todo-item"
+    >
+      <input
+        type="checkbox"
+        class="todo-checkbox"
+        [checked]="todo.completed"
+        (change)="toggleTodo(todo.id)"
+        [attr.aria-label]="'Toggle ' + todo.text"
+      />
+      <span class="todo-text">{{ todo.text }}</span>
+      <button
+        class="btn btn-delete"
+        (click)="deleteTodo(todo.id)"
+        [attr.aria-label]="'Delete ' + todo.text"
+      >
+        Delete
+      </button>
+    </li>
+  </ul>
+
+  <div class="todo-footer">
+    Frontend Benchmark - Angular Implementation
+  </div>
+</div>
