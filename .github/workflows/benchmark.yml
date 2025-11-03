@@ -1,0 +1,124 @@
+# GitHub Actions Workflow for Frontend Benchmark CI/CD
+# This workflow builds all implementations and runs automated tests
+
+name: Frontend Benchmark CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-react:
+    name: Build React Implementation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: implementations/react/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: implementations/react
+        run: npm ci
+      
+      - name: Build
+        working-directory: implementations/react
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-build
+          path: implementations/react/dist
+
+  build-vue:
+    name: Build Vue.js Implementation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: implementations/vue/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: implementations/vue
+        run: npm ci
+      
+      - name: Build
+        working-directory: implementations/vue
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: vue-build
+          path: implementations/vue/dist
+
+  build-angular:
+    name: Build Angular Implementation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: implementations/angular/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: implementations/angular
+        run: npm ci
+      
+      - name: Build
+        working-directory: implementations/angular
+        run: npm run build
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: angular-build
+          path: implementations/angular/dist
+
+  # Placeholder for future Lighthouse benchmarks
+  # benchmark:
+  #   name: Run Lighthouse Benchmarks
+  #   needs: [build-react, build-vue, build-angular]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v4
+  #     
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: '18'
+  #     
+  #     - name: Run benchmarks
+  #       working-directory: benchmarks/scripts
+  #       run: |
+  #         npm install
+  #         npm run benchmark:all
+  #     
+  #     - name: Upload benchmark results
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: benchmark-results
+  #         path: benchmarks/results/

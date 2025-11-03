@@ -1,0 +1,4 @@
+[[hooks]]
+stage = "build"
+command = "sh"
+command_arguments = ["-c", "echo 'Building Yew Todo App...'"]
