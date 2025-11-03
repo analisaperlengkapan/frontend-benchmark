@@ -4,7 +4,7 @@ This is the Vue.js implementation of the frontend benchmark Todo application.
 
 ## Tech Stack
 
-- Vue.js 3.5.13
+- Vue.js 3.5.22
 - Vite (Build tool)
 - Composition API with `<script setup>`
 

@@ -4,7 +4,7 @@ This is the Angular implementation of the frontend benchmark Todo application.
 
 ## Tech Stack
 
-- Angular 19.1.2
+- Angular 20.3.0
 - TypeScript
 - Standalone Components
 - Signals API

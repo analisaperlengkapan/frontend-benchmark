@@ -27,7 +27,7 @@ This is the Dioxus (Rust WebAssembly) implementation of the frontend benchmark T
 
 ```bash
 # Initialize Dioxus project
-dx new leptos-todo
+dx new dioxus-todo
 ```
 
 Or manually add to `Cargo.toml`:
