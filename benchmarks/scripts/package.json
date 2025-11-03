@@ -1,0 +1,17 @@
+{
+  "name": "frontend-benchmark-scripts",
+  "version": "1.0.0",
+  "description": "Benchmarking scripts for frontend frameworks",
+  "scripts": {
+    "benchmark:all": "node benchmark-all.js",
+    "benchmark:lighthouse": "node lighthouse-benchmark.js",
+    "benchmark:bundle": "node bundle-size.js",
+    "report": "node generate-report.js"
+  },
+  "dependencies": {
+    "lighthouse": "^12.0.0",
+    "puppeteer": "^23.0.0",
+    "chrome-launcher": "^1.1.0"
+  },
+  "devDependencies": {}
+}
