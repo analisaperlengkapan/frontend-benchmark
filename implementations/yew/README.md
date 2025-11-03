@@ -23,26 +23,6 @@ This is the Yew (Rust WebAssembly) implementation of the frontend benchmark Todo
 - Trunk: `cargo install trunk`
 - wasm32-unknown-unknown target: `rustup target add wasm32-unknown-unknown`
 
-## Project Setup
-
-```bash
-# Initialize Yew project
-cargo init --name yew-todo
-```
-
-Add to `Cargo.toml`:
-```toml
-[dependencies]
-yew = { version = "0.21", features = ["csr"] }
-web-sys = "0.3"
-wasm-bindgen = "0.2"
-
-[profile.release]
-opt-level = 'z'
-lto = true
-codegen-units = 1
-```
-
 ## Getting Started
 
 ### Development

@@ -61,3 +61,4 @@ yarn-error.log*
 *.wasm
 *.wasm.d.ts
 pkg/
+benchmarks/results/*.json
