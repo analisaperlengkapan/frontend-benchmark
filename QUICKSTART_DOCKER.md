@@ -7,11 +7,22 @@
 cd benchmarks/scripts
 npm install
 
-# Run complete benchmark suite (automated)
+# Run quick benchmark suite (JS frameworks, ~30 min)
 npm run benchmark:docker
+
+# Run COMPREHENSIVE benchmark (ALL frameworks + CPU/RAM metrics, ~2 hours)
+npm run benchmark:docker:full
 ```
 
-This will benchmark all frameworks one by one and save results.
+The comprehensive suite measures:
+- Bundle sizes (JS, CSS, WASM, HTML)
+- Performance scores (Lighthouse)
+- CPU usage (average and peak)
+- Memory usage (average and peak)
+- Network I/O
+- Build times
+
+This will benchmark all frameworks one by one and save detailed results.
 
 ## What This Does
 
