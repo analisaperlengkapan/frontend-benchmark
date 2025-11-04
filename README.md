@@ -104,11 +104,25 @@ php artisan serve
 
 ## Running Benchmarks
 
+### Local Benchmarks
+
 ```bash
 cd benchmarks/scripts
 npm install
 npm run benchmark:all
 ```
+
+### Docker-based Benchmarks
+
+For consistent, isolated benchmarking using Docker containers:
+
+```bash
+cd benchmarks/scripts
+npm install
+npm run benchmark:docker
+```
+
+See [DOCKER.md](DOCKER.md) for detailed Docker setup and usage instructions.
 
 ## Results
 

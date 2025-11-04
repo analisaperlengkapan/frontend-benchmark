@@ -246,7 +246,7 @@ async function benchmarkFramework(framework) {
   
   // Build and start container
   console.log(`\n▶️  Building and starting ${framework.name} container...`);
-  if (!runCommand(`docker-compose up -d --build ${framework.service}`, `Build and start ${framework.name}`)) {
+  if (!runCommand(`docker compose up -d --build ${framework.service}`, `Build and start ${framework.name}`)) {
     return { framework: framework.name, error: 'Failed to build/start container' };
   }
   
@@ -256,8 +256,8 @@ async function benchmarkFramework(framework) {
   
   if (!serverReady) {
     console.error(`   ❌ Server failed to start on port ${framework.port}`);
-    runCommand(`docker-compose logs ${framework.service}`, `Show ${framework.name} logs`);
-    runCommand(`docker-compose down ${framework.service}`, `Stop ${framework.name}`);
+    runCommand(`docker compose logs ${framework.service}`, `Show ${framework.name} logs`);
+    runCommand(`docker compose down ${framework.service}`, `Stop ${framework.name}`);
     return { framework: framework.name, error: 'Server failed to start' };
   }
   
@@ -271,7 +271,7 @@ async function benchmarkFramework(framework) {
   
   // Stop container
   console.log(`\n▶️  Stopping ${framework.name} container...`);
-  runCommand(`docker-compose down ${framework.service}`, `Stop ${framework.name}`);
+  runCommand(`docker compose down ${framework.service}`, `Stop ${framework.name}`);
   
   return {
     ...bundleAnalysis,
