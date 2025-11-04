@@ -104,11 +104,31 @@ php artisan serve
 
 ## Running Benchmarks
 
+### Local Benchmarks
+
 ```bash
 cd benchmarks/scripts
 npm install
 npm run benchmark:all
 ```
+
+### Docker-based Benchmarks
+
+For consistent, isolated benchmarking using Docker containers:
+
+```bash
+cd benchmarks/scripts
+npm install
+
+# Quick benchmark (JS frameworks only, ~30 min)
+npm run benchmark:docker
+
+# Comprehensive benchmark (ALL frameworks including Rust, ~2 hours)
+# Includes: CPU usage, RAM usage, performance metrics
+npm run benchmark:docker:full
+```
+
+See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md) for comprehensive benchmarking guide.
 
 ## Results
 

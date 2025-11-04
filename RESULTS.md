@@ -18,9 +18,9 @@ This document contains the performance benchmark results comparing various front
 
 | Framework | JS (gzipped) | CSS (gzipped) | Total | Notes |
 |-----------|-------------|---------------|-------|-------|
-| **React** | 61.69 kB | 1.16 kB | 62.85 kB | Using Vite + React 19 |
-| **Vue.js** | 25.45 kB | 1.16 kB | 26.61 kB | Using Vite + Vue 3 Composition API |
-| **Angular** | 44.51 kB | 972 bytes | 45.48 kB | Using Angular 19 with Signals |
+| **React** | 60.11 kB | 1.15 kB | 61.26 kB | Using Vite + React 19 |
+| **Vue.js** | 24.76 kB | 1.15 kB | 25.91 kB | Using Vite + Vue 3 Composition API |
+| **Angular** | 61.13 kB | 1.16 kB | 62.29 kB | Using Angular 20 with Signals |
 | **Blade.php** | ~5 kB | 1.16 kB | ~6 kB | Vanilla JS, no framework |
 
 ### Rust WebAssembly Frameworks (Planned)
@@ -202,5 +202,6 @@ See [BENCHMARK_SPEC.md](BENCHMARK_SPEC.md) for detailed testing methodology.
 
 ---
 
-*Last updated: 2025-11-03*
+*Last updated: 2025-11-04*
 *All measurements subject to change with framework updates*
+*Latest benchmarks run with Docker-based build and analysis system*

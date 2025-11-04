@@ -1,0 +1,207 @@
+# Docker Benchmarking - Quick Start Guide
+
+## TL;DR
+
+```bash
+# Install dependencies
+cd benchmarks/scripts
+npm install
+
+# Run quick benchmark suite (JS frameworks, ~30 min)
+npm run benchmark:docker
+
+# Run COMPREHENSIVE benchmark (ALL frameworks + CPU/RAM metrics, ~2 hours)
+npm run benchmark:docker:full
+```
+
+The comprehensive suite measures:
+- Bundle sizes (JS, CSS, WASM, HTML)
+- Performance scores (Lighthouse)
+- CPU usage (average and peak)
+- Memory usage (average and peak)
+- Network I/O
+- Build times
+
+This will benchmark all frameworks one by one and save detailed results.
+
+## What This Does
+
+1. **Builds** each framework in a Docker container
+2. **Starts** the container with the built application
+3. **Analyzes** bundle sizes
+4. **Tests** performance with Lighthouse
+5. **Saves** results to JSON files
+6. **Stops** the container
+7. **Repeats** for the next framework
+
+## Results Location
+
+After running, check:
+- `benchmarks/results/docker-benchmark-results.json` - Complete results
+- `benchmarks/results/bundle-sizes.json` - Bundle size data
+- `RESULTS.md` - Updated benchmark summary
+
+## Individual Framework Testing
+
+### Test Just React
+```bash
+# Build
+docker compose build react
+
+# Start
+docker compose up -d react
+
+# Visit
+open http://localhost:3001
+
+# Stop
+docker compose down react
+```
+
+### Test Just Vue
+```bash
+docker compose build vue
+docker compose up -d vue
+open http://localhost:3002
+docker compose down vue
+```
+
+### Test Just Angular
+```bash
+docker compose build angular
+docker compose up -d angular
+open http://localhost:3003
+docker compose down angular
+```
+
+## All Frameworks Ports
+
+| Framework | Port | URL |
+|-----------|------|-----|
+| React | 3001 | http://localhost:3001 |
+| Vue | 3002 | http://localhost:3002 |
+| Angular | 3003 | http://localhost:3003 |
+| Leptos | 3004 | http://localhost:3004 |
+| Yew | 3005 | http://localhost:3005 |
+| Dioxus | 3006 | http://localhost:3006 |
+| Blade | 3007 | http://localhost:3007 |
+
+## View Logs
+
+```bash
+# All containers
+docker compose logs
+
+# Specific framework
+docker compose logs react
+docker compose logs vue
+docker compose logs angular
+```
+
+## Clean Up
+
+```bash
+# Stop all containers
+docker compose down
+
+# Remove all containers and images
+docker compose down --rmi all
+
+# Full Docker cleanup
+docker system prune -a
+```
+
+## Troubleshooting
+
+### Port Already in Use
+```bash
+# Find what's using the port
+lsof -i :3001
+
+# Kill the process or change port in docker-compose.yml
+```
+
+### Build Failed
+```bash
+# Clean rebuild
+docker compose build --no-cache react
+```
+
+### Container Won't Start
+```bash
+# Check logs
+docker compose logs react
+
+# Check if it's running
+docker compose ps
+```
+
+## Expected Build Times
+
+| Framework | First Build | Subsequent |
+|-----------|------------|------------|
+| React | ~5 min | ~1 min |
+| Vue | ~3 min | ~30 sec |
+| Angular | ~8 min | ~2 min |
+| Leptos | ~25 min | ~5 min |
+| Yew | ~20 min | ~5 min |
+| Dioxus | ~20 min | ~5 min |
+| Blade | ~2 min | ~30 sec |
+
+## Benchmark Results Summary
+
+Current measurements (as of 2025-11-04):
+
+### Bundle Sizes (gzipped)
+
+🏆 **Vue.js: 24.76 kB** - Smallest
+- React: 60.11 kB
+- Angular: 61.13 kB
+
+### Key Findings
+
+- **Vue.js** has the smallest JavaScript bundle
+- **React** and **Angular** are similar in size (~60 kB)
+- All frameworks include ~1.15 kB of CSS
+
+## Next Steps
+
+1. ✅ Built and tested JavaScript frameworks
+2. 📋 Build Rust/WASM frameworks (requires more time)
+3. 📋 Run Lighthouse performance tests
+4. 📋 Compare runtime performance
+5. 📋 Test memory usage
+
+## More Information
+
+- Full Docker guide: [DOCKER.md](DOCKER.md)
+- Implementation details: [CHANGELOG_DOCKER.md](CHANGELOG_DOCKER.md)
+- Main results: [RESULTS.md](RESULTS.md)
+
+## Questions?
+
+Common scenarios:
+
+**Q: Can I test multiple frameworks at once?**
+```bash
+docker compose up -d react vue angular
+```
+
+**Q: How do I rebuild after code changes?**
+```bash
+docker compose build --no-cache react
+docker compose up -d react
+```
+
+**Q: How do I see real-time logs?**
+```bash
+docker compose logs -f react
+```
+
+**Q: How much disk space do I need?**
+- Minimum: 4 GB
+- Recommended: 8 GB
+- All frameworks built: 10-15 GB
+
+**Q: Can I run benchmarks in CI/CD?**
+Yes! See the CI/CD section in [DOCKER.md](DOCKER.md)
