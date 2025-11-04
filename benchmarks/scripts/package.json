@@ -4,6 +4,7 @@
   "description": "Benchmarking scripts for frontend frameworks",
   "scripts": {
     "benchmark:all": "node benchmark-all.js",
+    "benchmark:docker": "node benchmark-docker.js",
     "benchmark:lighthouse": "node lighthouse-benchmark.js",
     "benchmark:bundle": "node bundle-size.js",
     "report": "node generate-report.js"

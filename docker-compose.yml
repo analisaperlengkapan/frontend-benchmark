@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  react:
+    build:
+      context: ./implementations/react
+      dockerfile: Dockerfile
+    ports:
+      - "3001:80"
+    container_name: frontend-benchmark-react
+
+  vue:
+    build:
+      context: ./implementations/vue
+      dockerfile: Dockerfile
+    ports:
+      - "3002:80"
+    container_name: frontend-benchmark-vue
+
+  angular:
+    build:
+      context: ./implementations/angular
+      dockerfile: Dockerfile
+    ports:
+      - "3003:80"
+    container_name: frontend-benchmark-angular
+
+  leptos:
+    build:
+      context: ./implementations/leptos
+      dockerfile: Dockerfile
+    ports:
+      - "3004:80"
+    container_name: frontend-benchmark-leptos
+
+  yew:
+    build:
+      context: ./implementations/yew
+      dockerfile: Dockerfile
+    ports:
+      - "3005:80"
+    container_name: frontend-benchmark-yew
+
+  dioxus:
+    build:
+      context: ./implementations/dioxus
+      dockerfile: Dockerfile
+    ports:
+      - "3006:80"
+    container_name: frontend-benchmark-dioxus
+
+  blade:
+    build:
+      context: ./implementations/blade
+      dockerfile: Dockerfile
+    ports:
+      - "3007:80"
+    container_name: frontend-benchmark-blade
