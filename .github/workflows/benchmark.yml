@@ -1,5 +1,5 @@
 # GitHub Actions Workflow for Frontend Benchmark CI/CD
-# This workflow builds all implementations and runs automated tests
+# This workflow builds ALL implementations and runs automated tests
 
 name: Frontend Benchmark CI
 
@@ -14,6 +14,7 @@ permissions:
   contents: read
 
 jobs:
+  # JavaScript Frameworks
   build-react:
     name: Build React Implementation
     runs-on: ubuntu-latest
@@ -23,23 +24,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: implementations/react/package-lock.json
+          node-version: '20'
       
       - name: Install dependencies
         working-directory: implementations/react
-        run: npm ci
+        run: npm install
       
       - name: Build
         working-directory: implementations/react
         run: npm run build
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/react/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: react-build
           path: implementations/react/dist
+          retention-days: 7
 
   build-vue:
     name: Build Vue.js Implementation
@@ -50,23 +58,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: implementations/vue/package-lock.json
+          node-version: '20'
       
       - name: Install dependencies
         working-directory: implementations/vue
-        run: npm ci
+        run: npm install
       
       - name: Build
         working-directory: implementations/vue
         run: npm run build
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/vue/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: vue-build
           path: implementations/vue/dist
+          retention-days: 7
 
   build-angular:
     name: Build Angular Implementation
@@ -77,48 +92,210 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: implementations/angular/package-lock.json
+          node-version: '20'
       
       - name: Install dependencies
         working-directory: implementations/angular
-        run: npm ci
+        run: npm install
       
       - name: Build
         working-directory: implementations/angular
         run: npm run build
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/angular/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
       
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: angular-build
           path: implementations/angular/dist
+          retention-days: 7
 
-  # Placeholder for future Lighthouse benchmarks
-  # benchmark:
-  #   name: Run Lighthouse Benchmarks
-  #   needs: [build-react, build-vue, build-angular]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
-  #     
-  #     - name: Setup Node.js
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '18'
-  #     
-  #     - name: Run benchmarks
-  #       working-directory: benchmarks/scripts
-  #       run: |
-  #         npm install
-  #         npm run benchmark:all
-  #     
-  #     - name: Upload benchmark results
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: benchmark-results
-  #         path: benchmarks/results/
+  # Rust/WASM Frameworks
+  build-leptos:
+    name: Build Leptos Implementation (Rust/WASM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      
+      - name: Install Trunk
+        run: cargo install --locked trunk
+      
+      - name: Build with Trunk
+        working-directory: implementations/leptos
+        run: trunk build --release
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/leptos/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: leptos-build
+          path: implementations/leptos/dist
+          retention-days: 7
+
+  build-yew:
+    name: Build Yew Implementation (Rust/WASM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      
+      - name: Install Trunk
+        run: cargo install --locked trunk
+      
+      - name: Build with Trunk
+        working-directory: implementations/yew
+        run: trunk build --release
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/yew/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: yew-build
+          path: implementations/yew/dist
+          retention-days: 7
+
+  build-dioxus:
+    name: Build Dioxus Implementation (Rust/WASM)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: stable
+          target: wasm32-unknown-unknown
+      
+      - name: Install Dioxus CLI
+        run: cargo install dioxus-cli
+      
+      - name: Build with DX
+        working-directory: implementations/dioxus
+        run: dx build --release
+      
+      - name: Verify build output
+        run: |
+          if [ ! -d "implementations/dioxus/dist" ]; then
+            echo "Build failed: dist directory not found"
+            exit 1
+          fi
+          echo "Build successful!"
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dioxus-build
+          path: implementations/dioxus/dist
+          retention-days: 7
+
+  # PHP Framework
+  check-blade:
+    name: Check Blade Implementation (PHP)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json
+          tools: composer:v2
+      
+      - name: Validate composer.json
+        working-directory: implementations/blade
+        run: composer validate --strict
+      
+      - name: Install dependencies
+        working-directory: implementations/blade
+        run: composer install --prefer-dist --no-progress
+      
+      - name: Check PHP syntax
+        working-directory: implementations/blade
+        run: find . -name "*.php" -exec php -l {} \; | grep -v "No syntax errors"
+      
+      - name: Verify files exist
+        run: |
+          if [ ! -f "implementations/blade/index.php" ]; then
+            echo "Check failed: index.php not found"
+            exit 1
+          fi
+          echo "Blade implementation check successful!"
+
+  # Docker Build Tests
+  docker-build-test:
+    name: Docker Build Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        framework: [react, vue, angular]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Build Docker image for ${{ matrix.framework }}
+        working-directory: implementations/${{ matrix.framework }}
+        run: |
+          docker build -t frontend-benchmark-${{ matrix.framework }}:test .
+      
+      - name: Verify Docker image
+        run: |
+          docker images | grep frontend-benchmark-${{ matrix.framework }}
+          echo "Docker build successful for ${{ matrix.framework }}!"
+
+  # Summary job that depends on all builds
+  all-checks-passed:
+    name: All Checks Passed
+    runs-on: ubuntu-latest
+    needs: 
+      - build-react
+      - build-vue
+      - build-angular
+      - build-leptos
+      - build-yew
+      - build-dioxus
+      - check-blade
+      - docker-build-test
+    steps:
+      - name: All builds successful
+        run: |
+          echo "✅ All framework implementations built successfully!"
+          echo "✅ JavaScript frameworks: React, Vue, Angular"
+          echo "✅ Rust/WASM frameworks: Leptos, Yew, Dioxus"
+          echo "✅ PHP framework: Blade"
+          echo "✅ Docker builds: Tested"
