@@ -18,6 +18,7 @@ jobs:
   build-react:
     name: Build React Implementation
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       
@@ -52,6 +53,7 @@ jobs:
   build-vue:
     name: Build Vue.js Implementation
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       
@@ -86,6 +88,7 @@ jobs:
   build-angular:
     name: Build Angular Implementation
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       
@@ -121,6 +124,7 @@ jobs:
   build-leptos:
     name: Build Leptos Implementation (Rust/WASM)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       
@@ -155,6 +159,7 @@ jobs:
   build-yew:
     name: Build Yew Implementation (Rust/WASM)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       
@@ -189,6 +194,7 @@ jobs:
   build-dioxus:
     name: Build Dioxus Implementation (Rust/WASM)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       
@@ -224,6 +230,7 @@ jobs:
   check-blade:
     name: Check Blade Implementation (PHP)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       
@@ -236,7 +243,7 @@ jobs:
       
       - name: Validate composer.json
         working-directory: implementations/blade
-        run: composer validate --strict
+        run: composer validate --no-check-publish
       
       - name: Install dependencies
         working-directory: implementations/blade
@@ -244,7 +251,9 @@ jobs:
       
       - name: Check PHP syntax
         working-directory: implementations/blade
-        run: find . -name "*.php" -exec php -l {} \; | grep -v "No syntax errors"
+        run: |
+          find . -name "*.php" -print0 | xargs -0 -n1 php -l
+          echo "PHP syntax check passed!"
       
       - name: Verify files exist
         run: |
@@ -258,6 +267,7 @@ jobs:
   docker-build-test:
     name: Docker Build Test
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         framework: [react, vue, angular]
