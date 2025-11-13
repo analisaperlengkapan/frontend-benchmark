@@ -67,6 +67,13 @@ fn App() -> impl IntoView {
         }
     };
 
+    let add_todo_click = move |_| add_todo(());
+    let add_todo_keypress = move |ev: web_sys::KeyboardEvent| {
+        if ev.key() == "Enter" {
+            add_todo(());
+        }
+    };
+
     let toggle_todo = move |id: usize| {
         set_todos.update(|todos| {
             if let Some(todo) = todos.iter_mut().find(|t| t.id == id) {
@@ -95,16 +102,12 @@ fn App() -> impl IntoView {
                     placeholder="What needs to be done?"
                     prop:value=move || input_value.get()
                     on:input=move |ev| set_input_value.set(event_target_value(&ev))
-                    on:keypress=move |ev| {
-                        if ev.key() == "Enter" {
-                            add_todo(ev);
-                        }
-                    }
+                    on:keypress=add_todo_keypress
                     aria-label="New todo input"
                 />
                 <button
                     class="btn btn-primary"
-                    on:click=add_todo
+                    on:click=add_todo_click
                     aria-label="Add todo"
                 >
                     "Add"

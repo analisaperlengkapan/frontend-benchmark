@@ -1,207 +1,200 @@
 # Frontend Framework Benchmark Results
 
-This document contains the performance benchmark results comparing various frontend frameworks.
+*Last updated: 2025-11-13*
 
-## Implementations Tested
+## Quick Highlights
 
-- ✅ React
-- ✅ Vue.js
-- ✅ Angular
-- 📋 Leptos (Rust) - Planned
-- 📋 Yew (Rust) - Planned
-- 📋 Dioxus (Rust) - Planned
-- ✅ Blade.php (with vanilla JS)
+- **Top Lighthouse score:** react (100/100)
+- **Smallest gzipped bundle:** blade (1.32 KB)
+- **Highest measured throughput:** yew (38,499 req/s peak)
 
-## Bundle Size Comparison
+**Notes:**
+- Dioxus Lighthouse audit produced NaN values; rebuild and re-run Lighthouse in idle conditions (no concurrent stress test).
 
-### JavaScript Frameworks
-
-| Framework | JS (gzipped) | CSS (gzipped) | Total | Notes |
-|-----------|-------------|---------------|-------|-------|
-| **React** | 60.11 kB | 1.15 kB | 61.26 kB | Using Vite + React 19 |
-| **Vue.js** | 24.76 kB | 1.15 kB | 25.91 kB | Using Vite + Vue 3 Composition API |
-| **Angular** | 61.13 kB | 1.16 kB | 62.29 kB | Using Angular 20 with Signals |
-| **Blade.php** | ~5 kB | 1.16 kB | ~6 kB | Vanilla JS, no framework |
-
-### Rust WebAssembly Frameworks (Planned)
-
-| Framework | WASM (gzipped) | JS Glue | Total | Notes |
-|-----------|----------------|---------|-------|-------|
-| **Leptos** | TBD | TBD | TBD | Fine-grained reactivity |
-| **Yew** | TBD | TBD | TBD | Component-based |
-| **Dioxus** | TBD | TBD | TBD | React-like API |
-
-## Performance Metrics
-
-### Initial Load Performance
-
-Based on production builds tested with Chrome Lighthouse:
-
-| Framework | FCP | TTI | LCP | TBT | Performance Score |
-|-----------|-----|-----|-----|-----|-------------------|
-| React | TBD | TBD | TBD | TBD | TBD |
-| Vue.js | TBD | TBD | TBD | TBD | TBD |
-| Angular | TBD | TBD | TBD | TBD | TBD |
-| Blade.php | TBD | TBD | TBD | TBD | TBD |
-
-**Legend:**
-- FCP: First Contentful Paint
-- TTI: Time to Interactive
-- LCP: Largest Contentful Paint
-- TBT: Total Blocking Time
-
-### Runtime Performance
-
-Time to complete operations on 100 pre-existing todos:
-
-| Framework | Add 1000 Todos | Toggle All (100) | Filter Switch | Memory Usage |
-|-----------|----------------|------------------|---------------|--------------|
-| React | TBD | TBD | TBD | TBD |
-| Vue.js | TBD | TBD | TBD | TBD |
-| Angular | TBD | TBD | TBD | TBD |
-| Blade.php | TBD | TBD | TBD | TBD |
-
-## Developer Experience
-
-### Lines of Code
-
-| Framework | Main Component | Total LOC | Configuration |
-|-----------|----------------|-----------|---------------|
-| React | ~160 | ~200 | Minimal (Vite) |
-| Vue.js | ~150 | ~190 | Minimal (Vite) |
-| Angular | ~90 (TS) + ~90 (HTML) | ~250 | Complex (angular.json) |
-| Blade.php | ~230 | ~240 | None |
-
-### Build Time
-
-| Framework | Dev Server Start | Hot Reload | Production Build |
-|-----------|------------------|------------|------------------|
-| React | ~1-2s | Instant | ~1s |
-| Vue.js | ~1-2s | Instant | ~0.7s |
-| Angular | ~3-5s | Fast | ~5s |
-| Blade.php | Instant | N/A | N/A |
-
-### Learning Curve
-
-| Framework | Complexity | Documentation | Ecosystem | Type Safety |
-|-----------|-----------|---------------|-----------|-------------|
-| React | Medium | Excellent | Vast | Optional (TS) |
-| Vue.js | Low-Medium | Excellent | Large | Optional (TS) |
-| Angular | High | Excellent | Large | Built-in (TS) |
-| Blade.php | Low | Good | Medium | None |
-| Leptos | High | Growing | Small | Built-in (Rust) |
-| Yew | High | Good | Small | Built-in (Rust) |
-| Dioxus | Medium-High | Growing | Small | Built-in (Rust) |
-
-## Key Findings
-
-### Bundle Size Winner
-🏆 **Vue.js** - Smallest JavaScript framework bundle at 25.45 kB gzipped
-- Blade.php is smaller but uses minimal framework features
-
-### Performance Analysis
-
-#### Strengths by Framework:
-
-**React**
-- ✅ Mature ecosystem with extensive libraries
-- ✅ Strong community support
-- ⚠️ Larger bundle size
-- ⚠️ Requires understanding of hooks and re-render optimization
-
-**Vue.js**
-- ✅ Smallest bundle size among major frameworks
-- ✅ Excellent performance out of the box
-- ✅ Easy to learn and use
-- ✅ Composition API provides great developer experience
-
-**Angular**
-- ✅ Full-featured framework with everything included
-- ✅ Strong TypeScript integration
-- ✅ Signals API provides excellent reactivity
-- ⚠️ Steeper learning curve
-- ⚠️ Slower build times
-
-**Blade.php**
-- ✅ Zero framework overhead
-- ✅ Simple and straightforward
-- ⚠️ Manual state management
-- ⚠️ No reactivity system
-- ⚠️ More verbose for complex apps
-
-**Rust Frameworks (General)**
-- ✅ Compile to WebAssembly for near-native performance
-- ✅ Strong type safety at compile time
-- ✅ No runtime overhead
-- ⚠️ Steeper learning curve (Rust language)
-- ⚠️ Smaller ecosystem compared to JS frameworks
-- ⚠️ Longer compilation times
-
-## Recommendations
-
-### Choose React when:
-- You need a vast ecosystem of libraries and tools
-- You want maximum flexibility in architecture
-- Team is familiar with React patterns
-
-### Choose Vue.js when:
-- Bundle size is a concern
-- You want great performance with minimal configuration
-- You prefer a gentler learning curve
-- You need a progressive framework
-
-### Choose Angular when:
-- You need a complete, opinionated solution
-- You're building a large enterprise application
-- You want strong TypeScript integration
-- You prefer convention over configuration
-
-### Choose Blade.php when:
-- You need server-side rendering
-- You want minimal JavaScript
-- You're working in a PHP/Laravel environment
-- Your app is primarily server-rendered
-
-### Choose Rust WebAssembly (Leptos/Yew/Dioxus) when:
-- Performance is absolutely critical
-- You want compile-time guarantees
-- You're comfortable with Rust
-- You're building a computation-heavy app
-
-## Testing Methodology
-
-All tests were conducted on:
-- **Browser:** Chrome (latest stable)
-- **Network:** Fast 3G throttling
-- **CPU:** 4x slowdown
-- **Device:** Desktop emulation
-- **Cache:** Cleared before each test
-
-Production builds were used for all measurements. Each test was run 3 times and the median value was recorded.
-
-## Future Work
-
-- [ ] Complete Rust framework implementations
-- [ ] Add Svelte implementation
-- [ ] Add Solid.js implementation
-- [ ] Automated performance testing with CI/CD
-- [ ] Memory leak detection tests
-- [ ] Accessibility audit comparison
-- [ ] SEO comparison for SSR frameworks
-
-## Contributing
-
-To run these benchmarks yourself:
-
-1. Clone this repository
-2. Install dependencies in each implementation
-3. Build all implementations for production
-4. Run `npm run benchmark:all` in `benchmarks/scripts/`
-
-See [BENCHMARK_SPEC.md](BENCHMARK_SPEC.md) for detailed testing methodology.
+- Top throughput (top 3): yew (38,499 req/s), dioxus (36,243 req/s), leptos (35,047 req/s)
+- Top Lighthouse (top 3): react (100/100), vue (100/100), angular (100/100)
+- Smallest bundles (top 3): blade (1.32 KB), dioxus (13.75 KB), vue (25.91 KB)
 
 ---
 
-*Last updated: 2025-11-04*
-*All measurements subject to change with framework updates*
-*Latest benchmarks run with Docker-based build and analysis system*
+## Summary (at-a-glance)
+
+### Bundle Sizes (gzipped)
+
+| Framework | Bundle (gzipped) | Total Size |
+|-----------|------------------:|-----------:|
+| blade | 1.32 KB | 4.01 KB |
+| dioxus | 13.75 KB | 43.63 KB |
+| vue | 25.91 KB | 65.18 KB |
+| react | 61.27 KB | 195.46 KB |
+| angular | 62.06 KB | 190.41 KB |
+| leptos | 75.73 KB | 244.77 KB |
+| yew | 79.89 KB | 219.04 KB |
+
+### Lighthouse Performance
+
+| Framework | Perf | FCP | LCP | TTI |
+|-----------|-----:|----:|----:|----:|
+| react | 100/100 | 1203ms | 1354ms | 1203ms |
+| vue | 100/100 | 1053ms | 1204ms | 1179ms |
+| angular | 100/100 | 1212ms | 1589ms | 1394ms |
+| leptos | 100/100 | 906ms | 1582ms | 1244ms |
+| yew | 100/100 | 903ms | 1579ms | 1612ms |
+| blade | 87/100 | 751ms | 751ms | 751ms |
+| dioxus | 0/100 | N/A | N/A | N/A |
+
+### Throughput
+
+| Framework | Peak Avg Req/s | p50 | p90 | p99 | Errors |
+|-----------|---------------:|----:|----:|----:|------:|
+| **Yew** | 38,499 | 211ms | 412ms | 3902ms | 233 |
+| **Dioxus** | 36,243 | 194ms | 245ms | 1997ms | 466 |
+| **Leptos** | 35,047 | 214ms | 403ms | 3893ms | 256 |
+| **Angular** | 31,591 | 202ms | 284ms | 3914ms | 267 |
+| **React** | 30,237 | 196ms | 295ms | 3892ms | 256 |
+| **Vue** | 29,949 | 201ms | 380ms | 3887ms | 384 |
+| **Blade** | 309 | 2002ms | 2016ms | 7923ms | 6100 |
+
+---
+
+## Stress Test Summary
+
+| Framework | Peak Avg Req/s | Peak Concurrency | p50 | p90 | p99 | Errors | Non-2xx |
+|-----------|---------------:|----------------:|----:|----:|----:|------:|-------:|
+| yew | 38,499 | 2000 | 211ms | 412ms | 3902ms | 233 | 0 |
+| dioxus | 36,243 | 2000 | 194ms | 245ms | 1997ms | 466 | 0 |
+| leptos | 35,047 | 2000 | 214ms | 403ms | 3893ms | 256 | 0 |
+| angular | 31,591 | 2000 | 202ms | 284ms | 3914ms | 267 | 0 |
+| react | 30,237 | 2000 | 196ms | 295ms | 3892ms | 256 | 0 |
+| vue | 29,949 | 2000 | 201ms | 380ms | 3887ms | 384 | 0 |
+| blade | 309 | 2000 | 2002ms | 2016ms | 7923ms | 6100 | 0 |
+
+---
+
+## Per-framework Details
+
+### Yew
+
+- **Type:** rust
+- **Build time:** 1 s
+- **Total size:** 220.44 KB
+  - **JS:** 24.3 KB
+  - **CSS:** 0 Bytes
+  - **WASM:** 194.74 KB
+  - **HTML:** 1.41 KB
+- **Lighthouse:** 100/100 | FCP: 903ms | LCP: 1579ms | TTI: 1612ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.28 MB / 3.28 MB
+- **Stress (peak):** 38499 req/s @ 2000c | p50 211ms | p90 412ms | p99 3902ms
+  - Avg CPU: 0.01% | Max CPU: 1.27%
+  - Avg Mem: 3.61MB | Max Mem: 7.22MB
+- **Stress errors:** 233 | **Non-2xx:** 0
+
+### Dioxus
+
+- **Type:** rust
+- **Build time:** 1 s
+- **Total size:** 44.4 KB
+  - **JS:** 30.45 KB
+  - **CSS:** 0 Bytes
+  - **WASM:** 13.17 KB
+  - **HTML:** 798 Bytes
+- **Lighthouse:** 0/100 (audit failed / NaN metrics)
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.27 MB / 3.27 MB
+- **Stress (peak):** 36243 req/s @ 2000c | p50 194ms | p90 245ms | p99 1997ms
+  - Avg CPU: 0.02% | Max CPU: 1.47%
+  - Avg Mem: 3.57MB | Max Mem: 7.21MB
+- **Stress errors:** 466 | **Non-2xx:** 0
+- **Note:** Dioxus Lighthouse audit produced NaN values. Consider re-checking the index.html asset loading and re-running Lighthouse in a quiet environment.
+
+### Leptos
+
+- **Type:** rust
+- **Build time:** 2 s
+- **Total size:** 246.19 KB
+  - **JS:** 27.2 KB
+  - **CSS:** 0 Bytes
+  - **WASM:** 217.57 KB
+  - **HTML:** 1.42 KB
+- **Lighthouse:** 100/100 | FCP: 906ms | LCP: 1582ms | TTI: 1244ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.28 MB / 3.29 MB
+- **Stress (peak):** 35047 req/s @ 2000c | p50 214ms | p90 403ms | p99 3893ms
+  - Avg CPU: 0.05% | Max CPU: 3.43%
+  - Avg Mem: 3.60MB | Max Mem: 7.21MB
+- **Stress errors:** 256 | **Non-2xx:** 0
+
+### Angular
+
+- **Type:** javascript
+- **Build time:** 1 s
+- **Total size:** 191.87 KB
+  - **JS:** 187.32 KB
+  - **CSS:** 3.09 KB
+  - **HTML:** 1.46 KB
+- **Lighthouse:** 100/100 | FCP: 1212ms | LCP: 1589ms | TTI: 1394ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.30 MB / 3.30 MB
+- **Stress (peak):** 31591 req/s @ 2000c | p50 202ms | p90 284ms | p99 3914ms
+  - Avg CPU: 0.09% | Max CPU: 10.28%
+  - Avg Mem: 3.59MB | Max Mem: 7.23MB
+- **Stress errors:** 267 | **Non-2xx:** 0
+
+### React
+
+- **Type:** javascript
+- **Build time:** 2 s
+- **Total size:** 196.38 KB
+  - **JS:** 192.37 KB
+  - **CSS:** 3.09 KB
+  - **HTML:** 949 Bytes
+- **Lighthouse:** 100/100 | FCP: 1203ms | LCP: 1354ms | TTI: 1203ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.27 MB / 3.27 MB
+- **Stress (peak):** 30237 req/s @ 2000c | p50 196ms | p90 295ms | p99 3892ms
+  - Avg CPU: 0.01% | Max CPU: 1.19%
+  - Avg Mem: 3.59MB | Max Mem: 7.23MB
+- **Stress errors:** 256 | **Non-2xx:** 0
+
+### Vue
+
+- **Type:** javascript
+- **Build time:** 1 s
+- **Total size:** 66.1 KB
+  - **JS:** 62.09 KB
+  - **CSS:** 3.09 KB
+  - **HTML:** 946 Bytes
+- **Lighthouse:** 100/100 | FCP: 1053ms | LCP: 1204ms | TTI: 1179ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 3.29 MB / 3.29 MB
+- **Stress (peak):** 29949 req/s @ 2000c | p50 201ms | p90 380ms | p99 3887ms
+  - Avg CPU: 0.04% | Max CPU: 2.13%
+  - Avg Mem: 3.62MB | Max Mem: 7.23MB
+- **Stress errors:** 384 | **Non-2xx:** 0
+
+### Blade
+
+- **Type:** php
+- **Build time:** 3 s
+- **Total size:** 4.01 KB
+  - **JS:** 0 Bytes
+  - **CSS:** 4.01 KB
+  - **HTML:** 0 Bytes
+- **Lighthouse:** 87/100 | FCP: 751ms | LCP: 751ms | TTI: 751ms
+- **Runtime (avg/max cpu):** 0.00% / 0.00%
+- **Memory (avg/max):** 14.16 MB / 14.16 MB
+- **Stress (peak):** 309 req/s @ 2000c | p50 2002ms | p90 2016ms | p99 7923ms
+  - Avg CPU: 0.73% | Max CPU: 27.47%
+  - Avg Mem: 64.52MB | Max Mem: 128.30MB
+- **Stress errors:** 6100 | **Non-2xx:** 0
+
+---
+
+## Testing Methodology
+
+All tests were performed using the included `benchmarks/scripts` runner and are reproducible with the Docker-based setup. See `README.md` for details.
+
+## Key Findings
+
+- This summary shows approximate throughput, bundle sizes, and Lighthouse metrics. Results will vary by environment.

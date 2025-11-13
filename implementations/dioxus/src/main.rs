@@ -35,8 +35,18 @@ fn App() -> Element {
     let mut next_id = use_signal(|| 101usize);
 
     // Computed values
+    let remaining_count = use_memo(move || {
+        todos.read().iter().filter(|t| !t.completed).count()
+    });
+
+    let remaining_text = use_memo(move || {
+        let count = *remaining_count.read();
+        format!("{} {} remaining", count, if count == 1 { "item" } else { "items" })
+    });
+
+    // Computed values
     let filtered_todos = use_memo(move || {
-        todos.read().iter().filter(|todo| match filter.read().as_ref() {
+        todos.read().iter().filter(|todo| match *filter.read() {
             Filter::All => true,
             Filter::Active => !todo.completed,
             Filter::Completed => todo.completed,
@@ -45,12 +55,8 @@ fn App() -> Element {
         .collect::<Vec<_>>()
     });
 
-    let remaining_count = use_memo(move || {
-        todos.read().iter().filter(|t| !t.completed).count()
-    });
-
     // Actions
-    let add_todo = move |_| {
+    let add_todo = move |_: MouseEvent| {
         let text = input_value.read().clone();
         if !text.trim().is_empty() {
             let id = *next_id.read();
@@ -67,6 +73,8 @@ fn App() -> Element {
         }
     };
 
+    let current_filtered: Vec<Todo> = filtered_todos.read().iter().cloned().collect();
+
     rsx! {
         div { class: "todo-app",
             div { class: "todo-header",
@@ -79,11 +87,24 @@ fn App() -> Element {
                     r#type: "text",
                     class: "todo-input",
                     placeholder: "What needs to be done?",
-                    value: "{input_value}",
-                    oninput: move |evt| input_value.set(evt.value().clone()),
+                    value: "{input_value.read()}",
+                    oninput: move |evt| input_value.set(evt.value()),
                     onkeypress: move |evt| {
                         if evt.key() == Key::Enter {
-                            add_todo(());
+                            let text = input_value.read().clone();
+                            if !text.trim().is_empty() {
+                                let id = *next_id.read();
+                                todos.write().insert(
+                                    0,
+                                    Todo {
+                                        id,
+                                        text: text.clone(),
+                                        completed: false,
+                                    },
+                                );
+                                *next_id.write() = id + 1;
+                                *input_value.write() = String::new();
+                            }
                         }
                     },
                     "aria-label": "New todo input"
@@ -118,45 +139,38 @@ fn App() -> Element {
             }
 
             div { class: "todo-stats",
-                "{remaining_count} {if *remaining_count.read() == 1 { \"item\" } else { \"items\" }} remaining"
+                "{remaining_text.read()}"
             }
 
-            if filtered_todos.read().is_empty() {
+            if current_filtered.is_empty() {
                 div { class: "empty-state",
                     div { class: "empty-state-icon", "📝" }
                     div { class: "empty-state-text", "No todos to display" }
                 }
             } else {
                 ul { class: "todo-list",
-                    for todo in filtered_todos.read().iter() {
-                        {
-                            let id = todo.id;
-                            let completed = todo.completed;
-                            let text = todo.text.clone();
-                            rsx! {
-                                li { 
-                                    class: if completed { "todo-item completed" } else { "todo-item" },
-                                    input {
-                                        r#type: "checkbox",
-                                        class: "todo-checkbox",
-                                        checked: completed,
-                                        onchange: move |_| {
-                                            if let Some(t) = todos.write().iter_mut().find(|t| t.id == id) {
-                                                t.completed = !t.completed;
-                                            }
-                                        },
-                                        "aria-label": "Toggle {text}"
+                    for todo in current_filtered.clone().into_iter() {
+                        li { 
+                            class: if todo.completed { "todo-item completed" } else { "todo-item" },
+                            input {
+                                r#type: "checkbox",
+                                class: "todo-checkbox",
+                                checked: todo.completed,
+                                onchange: move |_| {
+                                    if let Some(t) = todos.write().iter_mut().find(|t| t.id == todo.id) {
+                                        t.completed = !t.completed;
                                     }
-                                    span { class: "todo-text", "{text}" }
-                                    button {
-                                        class: "btn btn-delete",
-                                        onclick: move |_| {
-                                            todos.write().retain(|t| t.id != id);
-                                        },
-                                        "aria-label": "Delete {text}",
-                                        "Delete"
-                                    }
-                                }
+                                },
+                                "aria-label": "Toggle {todo.text}"
+                            }
+                            span { class: "todo-text", "{todo.text}" }
+                            button {
+                                class: "btn btn-delete",
+                                onclick: move |_| {
+                                    todos.write().retain(|t| t.id != todo.id);
+                                },
+                                "aria-label": "Delete {todo.text}",
+                                "Delete"
                             }
                         }
                     }

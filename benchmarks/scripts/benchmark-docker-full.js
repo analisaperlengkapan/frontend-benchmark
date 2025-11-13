@@ -288,7 +288,8 @@ function analyzeBundleSize(framework) {
     
     // Copy files from container
     const containerName = `frontend-benchmark-${framework.name}`;
-    execSync(`docker cp ${containerName}:/usr/share/nginx/html ${tempDir}/`, { stdio: 'inherit' });
+    const sourcePath = framework.name === 'blade' ? '/var/www/html' : '/usr/share/nginx/html';
+    execSync(`docker cp ${containerName}:${sourcePath} ${tempDir}/`, { stdio: 'inherit' });
     
     const distPath = path.join(tempDir, 'html');
     
@@ -451,6 +452,17 @@ async function main() {
   
   for (const framework of frameworks) {
     const result = await benchmarkFramework(framework);
+    // Attach any existing stress test results for this framework
+    const stressPath = path.join(RESULTS_DIR, 'stress-test-results.json');
+    if (fs.existsSync(stressPath)) {
+      try {
+        const stressData = JSON.parse(fs.readFileSync(stressPath, 'utf-8'));
+        const match = stressData.find(s => s.framework === framework.name);
+        if (match) result.stress = match;
+      } catch (e) {
+        console.warn('Unable to parse stress-test-results.json');
+      }
+    }
     results.push(result);
     
     // Save incremental results

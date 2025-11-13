@@ -1,6 +1,11 @@
 # Use official PHP image with Apache
 FROM php:8.2-apache
 
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y git unzip zip && \
+    rm -rf /var/lib/apt/lists/*
+
 # Install composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

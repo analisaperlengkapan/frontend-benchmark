@@ -8,12 +8,13 @@
     "benchmark:docker:full": "node benchmark-docker-full.js",
     "benchmark:lighthouse": "node lighthouse-benchmark.js",
     "benchmark:bundle": "node bundle-size.js",
-    "report": "node generate-report.js"
+    "report": "node generate-report.js",
+    "report:clean": "node generate-report-clean.js"
   },
   "dependencies": {
-    "lighthouse": "^12.0.0",
-    "puppeteer": "^23.0.0",
-    "chrome-launcher": "^1.1.0"
-  },
-  "devDependencies": {}
+    "chrome-launcher": "^1.1.0",
+    "lighthouse": "^9.6.8",
+    "puppeteer": "^23.0.0"
+    ,"autocannon": "^7.10.0"
+  }
 }
