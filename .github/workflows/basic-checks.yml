@@ -17,7 +17,7 @@ jobs:
     name: Validate Repository Structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Check required files exist
         run: |
@@ -64,7 +64,7 @@ jobs:
     name: Check JavaScript Frameworks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -94,7 +94,7 @@ jobs:
     name: Check Rust Frameworks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Setup Rust
         uses: actions-rust-lang/setup-rust-toolchain@v1
@@ -124,7 +124,7 @@ jobs:
     name: Check PHP Framework
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -142,7 +142,7 @@ jobs:
     name: Validate Docker Configurations
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       
       - name: Validate docker-compose.yml
         run: |
