@@ -1,0 +1,121 @@
+# Comprehensive Benchmark Workflow
+# Runs full benchmarks including stress tests and updates results
+
+name: Comprehensive Benchmark
+
+on:
+  # Run on schedule (every Monday at 00:00 UTC)
+  schedule:
+    - cron: '0 0 * * 1'
+  # Allow manual trigger
+  workflow_dispatch:
+  # Run on push to main (optional, can be removed if too frequent)
+  push:
+    branches:
+      - main
+    paths:
+      - 'implementations/**'
+      - 'benchmarks/**'
+      - '.github/workflows/benchmark-comprehensive.yml'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run-benchmark:
+    name: Run Comprehensive Benchmarks
+    runs-on: ubuntu-latest
+    timeout-minutes: 180  # 3 hours max
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Install benchmark dependencies
+        working-directory: benchmarks/scripts
+        run: npm install
+      
+      - name: Run comprehensive Docker benchmark
+        working-directory: benchmarks/scripts
+        run: npm run benchmark:docker:full
+        continue-on-error: true
+      
+      - name: Update README.md with benchmark results
+        working-directory: benchmarks/scripts
+        run: npm run update-readme
+        continue-on-error: true
+      
+      - name: Check if benchmark results exist
+        id: check_results
+        run: |
+          if [ -f "benchmarks/results/comprehensive-benchmark-results.json" ]; then
+            echo "results_exist=true" >> $GITHUB_OUTPUT
+          else
+            echo "results_exist=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Upload benchmark results as artifact
+        if: steps.check_results.outputs.results_exist == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: |
+            benchmarks/results/
+            README.md
+          retention-days: 90
+      
+      - name: Create or update benchmark results PR
+        if: steps.check_results.outputs.results_exist == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Configure git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Create a new branch for the benchmark results
+          BRANCH_NAME="benchmark-results-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH_NAME"
+          
+          # Add the benchmark results files
+          git add README.md || true
+          git add benchmarks/results/ || true
+          
+          # Check if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          # Commit and push
+          git commit -m "Update benchmark results - $(date +%Y-%m-%d)"
+          git push origin "$BRANCH_NAME"
+          
+          # Create pull request using GitHub CLI
+          gh pr create \
+            --title "Update Benchmark Results - $(date +%Y-%m-%d)" \
+            --body "This PR contains updated benchmark results from the automated comprehensive benchmark run.
+
+          ## Summary
+          - Full benchmark including all frameworks (React, Vue, Angular, Leptos, Yew, Dioxus, Blade)
+          - Stress tests included
+          - Bundle size analysis
+          - Lighthouse performance metrics
+          - CPU and memory usage statistics
+
+          Please review the results and merge if everything looks correct." \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --label "benchmark-results" \
+            --label "automated"
