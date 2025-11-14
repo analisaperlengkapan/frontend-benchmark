@@ -9,7 +9,8 @@
     "benchmark:lighthouse": "node lighthouse-benchmark.js",
     "benchmark:bundle": "node bundle-size.js",
     "report": "node generate-report.js",
-    "report:clean": "node generate-report-clean.js"
+    "report:clean": "node generate-report-clean.js",
+    "update-readme": "node update-readme-results.js"
   },
   "dependencies": {
     "chrome-launcher": "^1.1.0",

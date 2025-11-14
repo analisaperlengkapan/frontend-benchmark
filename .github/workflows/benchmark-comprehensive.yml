@@ -51,15 +51,15 @@ jobs:
         run: npm run benchmark:docker:full
         continue-on-error: true
       
-      - name: Generate benchmark report
+      - name: Update README.md with benchmark results
         working-directory: benchmarks/scripts
-        run: npm run report:clean
+        run: npm run update-readme
         continue-on-error: true
       
-      - name: Check if RESULTS.md was generated
+      - name: Check if benchmark results exist
         id: check_results
         run: |
-          if [ -f "RESULTS.md" ]; then
+          if [ -f "benchmarks/results/comprehensive-benchmark-results.json" ]; then
             echo "results_exist=true" >> $GITHUB_OUTPUT
           else
             echo "results_exist=false" >> $GITHUB_OUTPUT
@@ -71,8 +71,8 @@ jobs:
         with:
           name: benchmark-results
           path: |
-            RESULTS.md
             benchmarks/results/
+            README.md
           retention-days: 90
       
       - name: Create or update benchmark results PR
@@ -88,8 +88,8 @@ jobs:
           BRANCH_NAME="benchmark-results-$(date +%Y%m%d-%H%M%S)"
           git checkout -b "$BRANCH_NAME"
           
-          # Add the results
-          git add RESULTS.md
+          # Add the benchmark results files
+          git add README.md || true
           git add benchmarks/results/ || true
           
           # Check if there are changes
