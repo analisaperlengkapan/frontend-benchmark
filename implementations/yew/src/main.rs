@@ -9,7 +9,7 @@ struct Todo {
 }
 
 #[derive(Clone, PartialEq)]
-enum Filter {
+pub enum Filter {
     All,
     Active,
     Completed,
