@@ -204,12 +204,12 @@ jobs:
           toolchain: stable
           target: wasm32-unknown-unknown
       
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli
+      - name: Install Trunk
+        run: cargo install --locked trunk
       
-      - name: Build with DX
+      - name: Build with Trunk
         working-directory: implementations/dioxus
-        run: dx build --release
+        run: trunk build --release
       
       - name: Verify build output
         run: |
