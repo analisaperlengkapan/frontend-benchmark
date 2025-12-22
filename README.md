@@ -131,20 +131,20 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 
 ## Benchmark Results
 
-*Last updated: 2025-11-13*
+*Last updated: 2025-12-22*
 
 ### Quick Highlights
 
-- **Top Lighthouse score:** react (100/100)
+- **Top Lighthouse score:** vue (100/100)
 - **Smallest gzipped bundle:** blade (1.32 KB)
-- **Highest measured throughput:** yew (38,499 req/s peak)
+- **Highest measured throughput:** react (0 req/s peak)
 
 **Notes:**
 - Dioxus Lighthouse audit produced NaN values; rebuild and re-run Lighthouse in idle conditions (no concurrent stress test).
 
-- Top throughput (top 3): yew (38,499 req/s), dioxus (36,243 req/s), leptos (35,047 req/s)
-- Top Lighthouse (top 3): react (100/100), vue (100/100), angular (100/100)
-- Smallest bundles (top 3): blade (1.32 KB), dioxus (13.75 KB), vue (25.91 KB)
+- Top throughput (top 3): react (0 req/s), vue (0 req/s), angular (0 req/s)
+- Top Lighthouse (top 3): vue (100/100), angular (100/100), yew (100/100)
+- Smallest bundles (top 3): blade (1.32 KB), vue (25.86 KB), react (61.07 KB)
 
 ---
 
@@ -155,36 +155,35 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 | Framework | Bundle (gzipped) | Total Size |
 |-----------|------------------:|-----------:|
 | blade | 1.32 KB | 4.01 KB |
-| dioxus | 13.75 KB | 43.63 KB |
-| vue | 25.91 KB | 65.18 KB |
-| react | 61.27 KB | 195.46 KB |
-| angular | 62.06 KB | 190.41 KB |
-| leptos | 75.73 KB | 244.77 KB |
-| yew | 79.89 KB | 219.04 KB |
+| vue | 25.86 KB | 65.2 KB |
+| react | 61.07 KB | 194.15 KB |
+| angular | 62.06 KB | 190.43 KB |
+| yew | 79.19 KB | 217.56 KB |
+| leptos | 80.39 KB | 259.21 KB |
+| dioxus | 0 Bytes | 0 Bytes |
 
 #### Lighthouse Performance
 
 | Framework | Perf | FCP | LCP | TTI |
 |-----------|-----:|----:|----:|----:|
-| react | 100/100 | 1203ms | 1354ms | 1203ms |
-| vue | 100/100 | 1053ms | 1204ms | 1179ms |
-| angular | 100/100 | 1212ms | 1589ms | 1394ms |
-| leptos | 100/100 | 906ms | 1582ms | 1244ms |
-| yew | 100/100 | 903ms | 1579ms | 1612ms |
-| blade | 87/100 | 751ms | 751ms | 751ms |
-| dioxus | 0/100 | N/A | N/A | N/A |
+| vue | 100/100 | 1051ms | 1201ms | 1051ms |
+| angular | 100/100 | 1202ms | 1577ms | 1383ms |
+| yew | 100/100 | 903ms | 1579ms | 1241ms |
+| blade | 100/100 | 751ms | 902ms | 751ms |
+| leptos | 93/100 | 903ms | 1579ms | 1706ms |
+| react | 92/100 | 1436ms | 1555ms | 1962ms |
 
 #### Throughput
 
 | Framework | Peak Avg Req/s | p50 | p90 | p99 | Errors |
 |-----------|---------------:|----:|----:|----:|------:|
-| **Yew** | 38,499 | 211ms | 412ms | 3902ms | 233 |
-| **Dioxus** | 36,243 | 194ms | 245ms | 1997ms | 466 |
-| **Leptos** | 35,047 | 214ms | 403ms | 3893ms | 256 |
-| **Angular** | 31,591 | 202ms | 284ms | 3914ms | 267 |
-| **React** | 30,237 | 196ms | 295ms | 3892ms | 256 |
-| **Vue** | 29,949 | 201ms | 380ms | 3887ms | 384 |
-| **Blade** | 309 | 2002ms | 2016ms | 7923ms | 6100 |
+| **React** | 0 | N/A | N/A | N/A | 0 |
+| **Vue** | 0 | N/A | N/A | N/A | 0 |
+| **Angular** | 0 | N/A | N/A | N/A | 0 |
+| **Leptos** | 0 | N/A | N/A | N/A | 0 |
+| **Yew** | 0 | N/A | N/A | N/A | 0 |
+| **Dioxus** | 0 | N/A | N/A | N/A | 0 |
+| **Blade** | 0 | N/A | N/A | N/A | 0 |
 
 ---
 
@@ -192,13 +191,13 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 
 | Framework | Peak Avg Req/s | Peak Concurrency | p50 | p90 | p99 | Errors | Non-2xx |
 |-----------|---------------:|----------------:|----:|----:|----:|------:|-------:|
-| yew | 38,499 | 2000 | 211ms | 412ms | 3902ms | 233 | 0 |
-| dioxus | 36,243 | 2000 | 194ms | 245ms | 1997ms | 466 | 0 |
-| leptos | 35,047 | 2000 | 214ms | 403ms | 3893ms | 256 | 0 |
-| angular | 31,591 | 2000 | 202ms | 284ms | 3914ms | 267 | 0 |
-| react | 30,237 | 2000 | 196ms | 295ms | 3892ms | 256 | 0 |
-| vue | 29,949 | 2000 | 201ms | 380ms | 3887ms | 384 | 0 |
-| blade | 309 | 2000 | 2002ms | 2016ms | 7923ms | 6100 | 0 |
+| react | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| vue | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| angular | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| leptos | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| yew | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| dioxus | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
+| blade | 0 | 2,000 | N/A | N/A | N/A | 0 | 0 |
 
 ---
 
@@ -207,6 +206,7 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 All tests were performed using the included `benchmarks/scripts` runner and are reproducible with the Docker-based setup. Results will vary by environment.
 
 For detailed per-framework analysis and complete methodology, see [BENCHMARK_GUIDE.md](BENCHMARK_GUIDE.md).
+
 
 ## Contributing
 
