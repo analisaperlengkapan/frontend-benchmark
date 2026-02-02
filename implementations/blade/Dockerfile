@@ -1,5 +1,5 @@
 # Use official PHP image with Apache
-FROM php:8.2-apache
+FROM php:8.5.3RC1-apache
 
 # Install system dependencies
 RUN apt-get update && \
