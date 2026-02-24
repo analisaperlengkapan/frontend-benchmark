@@ -135,7 +135,7 @@ fn App() -> Element {
                 }
             } else {
                 ul { class: "todo-list",
-                    for todo in filtered_todos.read().iter() {
+                    for todo in filtered_todos.read().clone() {
                         li { 
                             key: "{todo.id}",
                             class: if todo.completed { "todo-item completed" } else { "todo-item" },
