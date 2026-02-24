@@ -57,7 +57,7 @@ fn App() -> Element {
     });
 
     // Actions
-    let add_todo = move |_: MouseEvent| {
+    let mut add_todo = move || {
         let text = input_value.read().clone();
         if !text.trim().is_empty() {
             let id = *next_id.read();
@@ -73,8 +73,6 @@ fn App() -> Element {
             *input_value.write() = String::new();
         }
     };
-
-    let current_filtered: Vec<Todo> = filtered_todos.read().iter().cloned().collect();
 
     rsx! {
         div { class: "todo-app",
@@ -92,27 +90,14 @@ fn App() -> Element {
                     oninput: move |evt| input_value.set(evt.value()),
                     onkeypress: move |evt| {
                         if evt.key() == Key::Enter {
-                            let text = input_value.read().clone();
-                            if !text.trim().is_empty() {
-                                let id = *next_id.read();
-                                todos.write().insert(
-                                    0,
-                                    Todo {
-                                        id,
-                                        text: text.clone(),
-                                        completed: false,
-                                    },
-                                );
-                                *next_id.write() = id + 1;
-                                *input_value.write() = String::new();
-                            }
+                            add_todo();
                         }
                     },
                     "aria-label": "New todo input"
                 }
                 button {
                     class: "btn btn-primary",
-                    onclick: add_todo,
+                    onclick: move |_| add_todo(),
                     "aria-label": "Add todo",
                     "Add"
                 }
@@ -143,22 +128,24 @@ fn App() -> Element {
                 "{remaining_text.read()}"
             }
 
-            if current_filtered.is_empty() {
+            if filtered_todos.read().is_empty() {
                 div { class: "empty-state",
                     div { class: "empty-state-icon", "📝" }
                     div { class: "empty-state-text", "No todos to display" }
                 }
             } else {
                 ul { class: "todo-list",
-                    for todo in current_filtered.clone().into_iter() {
+                    for todo in filtered_todos.read().iter() {
                         li { 
+                            key: "{todo.id}",
                             class: if todo.completed { "todo-item completed" } else { "todo-item" },
                             input {
                                 r#type: "checkbox",
                                 class: "todo-checkbox",
                                 checked: todo.completed,
                                 onchange: move |_| {
-                                    if let Some(t) = todos.write().iter_mut().find(|t| t.id == todo.id) {
+                                    let id = todo.id;
+                                    if let Some(t) = todos.write().iter_mut().find(|t| t.id == id) {
                                         t.completed = !t.completed;
                                     }
                                 },
@@ -168,7 +155,8 @@ fn App() -> Element {
                             button {
                                 class: "btn btn-delete",
                                 onclick: move |_| {
-                                    todos.write().retain(|t| t.id != todo.id);
+                                    let id = todo.id;
+                                    todos.write().retain(|t| t.id != id);
                                 },
                                 "aria-label": "Delete {todo.text}",
                                 "Delete"

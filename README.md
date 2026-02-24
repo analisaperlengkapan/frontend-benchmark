@@ -131,12 +131,12 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 
 ## Benchmark Results
 
-*Last updated: 2025-11-13*
+*Last updated: 2026-02-24*
 
 ### Quick Highlights
 
 - **Top Lighthouse score:** react (100/100)
-- **Smallest gzipped bundle:** blade (1.32 KB)
+- **Smallest gzipped bundle:** blade (~1.32 KB)
 - **Highest measured throughput:** yew (38,499 req/s peak)
 
 **Notes:**
@@ -184,7 +184,9 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 | **Angular** | 31,591 | 202ms | 284ms | 3914ms | 267 |
 | **React** | 30,237 | 196ms | 295ms | 3892ms | 256 |
 | **Vue** | 29,949 | 201ms | 380ms | 3887ms | 384 |
-| **Blade** | 309 | 2002ms | 2016ms | 7923ms | 6100 |
+| **Blade** | 807 | N/A | N/A | N/A | 0 |
+
+*Note: Blade benchmarked locally with `php -S` due to environment constraints. Dioxus was optimized but not re-benchmarked.*
 
 ---
 
@@ -198,7 +200,7 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 | angular | 31,591 | 2000 | 202ms | 284ms | 3914ms | 267 | 0 |
 | react | 30,237 | 2000 | 196ms | 295ms | 3892ms | 256 | 0 |
 | vue | 29,949 | 2000 | 201ms | 380ms | 3887ms | 384 | 0 |
-| blade | 309 | 2000 | 2002ms | 2016ms | 7923ms | 6100 | 0 |
+| blade | 807 | 50 | N/A | N/A | N/A | 0 | 0 |
 
 ---
 
