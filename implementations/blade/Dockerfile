@@ -1,5 +1,5 @@
 # Use official PHP image with Apache
-FROM php:8.5.3RC1-apache
+FROM php:8.2-apache
 
 # Install system dependencies
 RUN apt-get update && \
@@ -19,10 +19,13 @@ WORKDIR /var/www/html
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --prefer-dist
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html && \
+    mkdir -p /var/www/html/cache && \
+    chmod -R 777 /var/www/html/cache
 
 # Configure Apache to serve from current directory
 RUN echo '<Directory /var/www/html>\n\
