@@ -44,7 +44,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: react-build
           path: implementations/react/dist
@@ -79,7 +79,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: vue-build
           path: implementations/vue/dist
@@ -114,7 +114,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: angular-build
           path: implementations/angular/dist
@@ -150,7 +150,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: leptos-build
           path: implementations/leptos/dist
@@ -185,7 +185,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: yew-build
           path: implementations/yew/dist
@@ -220,7 +220,7 @@ jobs:
           echo "Build successful!"
       
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: dioxus-build
           path: implementations/dioxus/dist
