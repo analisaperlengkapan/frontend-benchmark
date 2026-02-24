@@ -19,6 +19,7 @@ const generateInitialTodos = (count: number): Todo[] => {
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
