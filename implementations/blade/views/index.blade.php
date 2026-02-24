@@ -58,7 +58,7 @@
         </div>
 
         <div class="todo-stats" id="todo-stats">
-            <span id="remaining-count">{{ collect($todos)->where('completed', false)->count() }}</span> {{ collect($todos)->where('completed', false)->count() === 1 ? 'item' : 'items' }} remaining
+            <span id="remaining-count">{{ collect($todos)->where('completed', false)->count() }}</span> items remaining
         </div>
 
         <ul class="todo-list" id="todo-list">

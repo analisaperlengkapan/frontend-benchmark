@@ -184,9 +184,9 @@ See [DOCKER.md](DOCKER.md) for Docker setup and [BENCHMARK_GUIDE.md](BENCHMARK_G
 | **Angular** | 31,591 | 202ms | 284ms | 3914ms | 267 |
 | **React** | 30,237 | 196ms | 295ms | 3892ms | 256 |
 | **Vue** | 29,949 | 201ms | 380ms | 3887ms | 384 |
-| **Blade** | 807 | N/A | N/A | N/A | 0 |
+| **Blade** | 807* | N/A | N/A | N/A | 0 |
 
-*Note: Blade benchmarked locally with `php -S` due to environment constraints. Dioxus was optimized but not re-benchmarked.*
+*\*Note: Blade results are NOT directly comparable. Benchmarked locally with single-threaded `php -S` at lower concurrency (50) due to Docker environment constraints. Previous broken implementation scored 309 req/s with high errors.*
 
 ---
 
