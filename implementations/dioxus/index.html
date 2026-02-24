@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List - Dioxus</title>
-        <!-- Inline a minimal stylesheet (original shared stylesheet not available in build context) -->
-        <style>
-            body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #fff; }
-            #main { padding: 12px; }
-        </style>
+    <link data-trunk rel="rust" />
+    <!-- Inline a minimal stylesheet (original shared stylesheet not available in build context) -->
+    <style>
+        body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background: #fff; }
+        #main { padding: 12px; }
+    </style>
 </head>
 <body>
     <div id="main"></div>
-    <!-- Load wasm-bindgen-generated JS glue for Dioxus. wasm-bindgen will output dioxus_todo.js and dioxus_todo_bg.wasm to dist/ -->
-    <script type="module" src="./dioxus_todo.js"></script>
 </body>
 </html>
