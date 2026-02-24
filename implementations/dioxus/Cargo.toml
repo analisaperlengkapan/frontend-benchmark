@@ -3,12 +3,6 @@ name = "dioxus-todo"
 version = "0.1.0"
 edition = "2021"
 
-# Trunk usually builds the bin target for the web app, but wasm-bindgen uses cdylib.
-# Using both allows compatibility with different tools, and removing [lib] caused ambiguity for Trunk in previous runs.
-[lib]
-crate-type = ["cdylib", "rlib"]
-path = "src/main.rs"
-
 [dependencies]
 dioxus = { version = "0.7", features = ["web"] }
 
